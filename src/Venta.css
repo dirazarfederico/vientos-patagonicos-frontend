@@ -1,0 +1,59 @@
+#Venta-app {
+  padding-left: 10%;
+  padding-top: 1%;
+  width: 70%;
+}
+
+input[select] {
+  display: block;
+}
+
+label {
+  display: block;
+  margin: 1rem 0;
+}
+
+button {
+  margin: 1rem 3rem 10px 0px;
+  padding: 5px 5px;
+  background-color: lightgray;
+  border-radius: 10px;
+  border: solid 1px;
+  box-shadow: 2px 2px 0px 1px black;
+  font-size: medium;
+}
+
+table {
+  width: 100%;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+}
+
+td {
+  padding-left: 1rem;
+}
+
+.message-box {
+  display: block;
+  background-color: lightseagreen;
+  width: 70%;
+  font-size: 24px;
+  font-family: monospace;
+  border-radius: 50%;
+}
+
+.success {
+  border: solid 5px green;
+  border-radius: 15px;
+  background-color: lightgreen;
+}
+
+.error {
+  border: solid 5px darkred;
+  border-radius: 15px;
+  background-color: red;
+}
