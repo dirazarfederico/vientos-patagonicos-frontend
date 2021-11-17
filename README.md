@@ -1,2 +1,4 @@
 # vientos-patagonicos-frontend
-El frontend del proyecto vientos patagónicos
+A barebones e-commerce frontend. No design / UX present.
+
+## University coursework for Databases II.
