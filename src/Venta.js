@@ -9,6 +9,8 @@ export default class Venta extends Component {
     this.confirmarCompra = this.confirmarCompra.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.handleChangeProducto = this.handleChangeProducto.bind(this);
+    this.editProducto = this.editProducto.bind(this);
 
     this.state = {
       cliente: 7,
@@ -23,6 +25,15 @@ export default class Venta extends Component {
       total: "",
       result: "",
       message: "",
+      product: {
+        codigo: "",
+        marca: "",
+        descripcion: "",
+        precio: "",
+        categoria: "",
+        version: "",
+      },
+      classes: [],
     };
   }
 
@@ -58,6 +69,15 @@ export default class Venta extends Component {
           sales: json.sales,
         })
       );
+
+    fetch("http://localhost:7000/update")
+      .then((response) => response.json())
+      .then((json) =>
+        this.setState({
+          product: json.product,
+          classes: json.classes,
+        })
+      );
   }
 
   handleChange(e) {
@@ -67,6 +87,18 @@ export default class Venta extends Component {
     this.setState((state) => ({
       form: {
         ...state.form,
+        [name]: value,
+      },
+    }));
+  }
+
+  handleChangeProducto(e) {
+    let name = e.target.name;
+    let value = e.target.value;
+
+    this.setState((state) => ({
+      product: {
+        ...state.product,
         [name]: value,
       },
     }));
@@ -148,6 +180,28 @@ export default class Venta extends Component {
       });
   }
 
+  editProducto(e) {
+    e.preventDefault();
+    fetch("http://localhost:7000/update", {
+      method: "POST",
+      body: JSON.stringify({
+        codigo: this.state.product.codigo,
+        marca: this.state.product.marca,
+        descripcion: this.state.product.descripcion,
+        precio: this.state.product.precio,
+        categoria: this.state.product.categoria,
+        version: this.state.product.version,
+      }),
+    })
+      .then((resp) => resp.json())
+      .then((json) => {
+        this.setState({
+          result: json.result,
+          message: json.message,
+        });
+      });
+  }
+
   render() {
     return (
       <div id="Venta-app">
@@ -219,6 +273,7 @@ export default class Venta extends Component {
                 <td>Total</td>
                 <td>Tarjeta</td>
                 <td>Productos comprados</td>
+                <td>Id</td>
               </tr>
             </thead>
             <tbody>
@@ -236,10 +291,67 @@ export default class Venta extends Component {
                       </>
                     ))}
                   </td>
+                  <td>{sale.yearId}</td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="editarProducto">
+          <form>
+            <label>ID</label>
+            <input
+              type="text"
+              contentEditable={false}
+              name="codigo"
+              value={this.state.product.codigo}
+            ></input>
+            <label>Descripcion</label>
+            <input
+              type="text"
+              value={this.state.product.descripcion}
+              id="descripcion"
+              name="descripcion"
+              onChange={this.handleChangeProducto}
+            ></input>
+            <label>Precio</label>
+            <input
+              type="text"
+              defaultValue={this.state.product.precio}
+              name="precio"
+              onChange={this.handleChangeProducto}
+            ></input>
+            <label>Marca</label>
+            <input
+              type="text"
+              defaultValue={this.state.product.marca}
+              name="marca"
+              onChange={this.handleChangeProducto}
+            ></input>
+            <label></label>
+            <label> Categoría </label>
+            <select
+              name="categoria"
+              defaultValue={this.state.product.categoria}
+              onChange={this.handleChangeProducto}
+            >
+              {this.state.classes.map((categoria) => (
+                <option key={categoria.id} value={categoria.id}>
+                  {categoria.name}
+                </option>
+              ))}
+            </select>
+            <input
+              type="hidden"
+              name="version"
+              value={this.state.product.version}
+            ></input>
+            <div>
+              <button onClick={this.editProducto} type="submit">
+                Confirmar
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     );

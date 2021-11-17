@@ -57,3 +57,7 @@ td {
   border-radius: 15px;
   background-color: red;
 }
+
+#descripcion {
+  width: 810px;
+}
